@@ -1,17 +1,20 @@
-FROM golang:1-alpine as builder
+# Specifies a parent image
+FROM golang:1.20
 
-ADD . /src
+# Creates an app directory to hold your app’s source code
+WORKDIR /app
 
-WORKDIR /src
+# Copies everything from your root directory into /app
+COPY . .
 
-ENV GO111MODULE=on
+# Installs Go dependencies
+RUN go mod download
 
-RUN cd cmd/screenshot && go build
+# Builds your app with optional configuration
+RUN go build -o /screenshot
 
-FROM alpine:latest
+# Tells Docker which network port your container listens on
+EXPOSE 38113
 
-WORKDIR /bin/
-
-COPY --from=builder /src/cmd/screenshot/screenshot .
-
-ENTRYPOINT ["/bin/screenshot"]
+# Specifies the executable command that runs when the container starts
+CMD [ "/screenshot"]

@@ -19,7 +19,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&addr, "l", ":8080", "server address")
+	flag.StringVar(&addr, "l", ":38113", "server address")
 	flag.StringVar(&chromeRemoteAddr, "chrome_remote_addr", "127.0.0.1:9222", "chrome websocket debugger endpoint address")
 	flag.Parse()
 }
