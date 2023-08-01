@@ -6,9 +6,9 @@ WORKDIR /app
 COPY . .
 # Installs Go dependencies
 RUN go mod download
-RUN cd cmd/screenshot
+
 # Builds your app with optional configuration
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /app/screenshot -ldflags '-extldflags "-static"'
+RUN cd cmd/screenshot && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /app/screenshot -ldflags '-extldflags "-static"'
 # -- Stage 2 -- #
 # Create the final environment with the compiled binary.
 FROM alpine
