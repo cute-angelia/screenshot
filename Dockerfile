@@ -11,7 +11,7 @@ COPY . .
 RUN go mod download
 
 # Builds your app with optional configuration
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags '-extldflags "-static"' -o screenshot
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags '-extldflags "-static"'
 
 # -- Stage 2 -- #
 # Create the final environment with the compiled binary.
