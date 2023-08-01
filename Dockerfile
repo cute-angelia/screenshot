@@ -10,6 +10,8 @@ COPY . .
 # Installs Go dependencies
 RUN go mod download
 
+RUN cd /app/cmd/screenshot
+
 # Builds your app with optional configuration
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o screenshot -ldflags '-extldflags "-static"'
 
@@ -22,7 +24,7 @@ FROM alpine
 WORKDIR /app
 
 # Copy the binary from the builder stage and set it as the default command.
-COPY --from=builder /app/screenshot /app/screenshot
+COPY --from=builder /app/cmd/screenshot/screenshot /app/screenshot
 
 RUN chmod +x /app/screenshot
 
