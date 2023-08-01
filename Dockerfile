@@ -18,7 +18,7 @@ WORKDIR /app
 # Copy the binary from the builder stage and set it as the default command.
 COPY --from=builder /app/screenshot /app/screenshot
 
-RUN ll -sh /app/screenshot
+RUN ls -l /app/screenshot
 
 RUN chmod +x /app/screenshot
 # Tells Docker which network port your container listens on
