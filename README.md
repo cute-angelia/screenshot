@@ -14,7 +14,16 @@ $ docker-compose up -d
 
 Then Access the API:
 ```
-http://localhost:8080/screenshot?url=https://bing.com&width=1280&height=720
+http://localhost:38113/screenshot?url=https://bing.com&width=1280&height=720
+
+
+other params
+
+mobile bool 
+format string jpg png
+quality int
+timeout int 
+
 ```
 
 ### k8s
