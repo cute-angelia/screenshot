@@ -24,7 +24,7 @@ FROM alpine
 WORKDIR /app
 
 # Copy the binary from the builder stage and set it as the default command.
-COPY --from=builder /app/cmd/screenshot/screenshot /app/screenshot
+COPY --from=builder /app/screenshot/cmd/screenshot/screenshot /app/screenshot
 
 RUN chmod +x /app/screenshot
 
