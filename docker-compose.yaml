@@ -1,28 +1,52 @@
 version: "3"
+
+# 两个服务使用独立网络,提高安全性
+networks:
+  chrome:
+  screenshot:
+
 services:
+
   chrome:
     image: ginuerzh/alpine-chrome
-    command:
-      - --no-sandbox
-      - --remote-debugging-address=0.0.0.0
-      - --remote-debugging-port=9222
+    command: ["--no-sandbox", "--remote-debugging-address=0.0.0.0", "--remote-debugging-port=9222"]
+    # 限制 chrome 的内存使用
+    mem_limit: 512m
     networks:
-      - screenshot
+      - chrome
     ports:
       - 9222:9222
-
+    # 日志记录到文件
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m" # 单个文件大小限制为10M
+        max-file: "3" # 最多保留3个日志文件
 
   screenshot:
-    image: ginuerzh/screenshot
-    command:
-      - -l=:8080
-      - -chrome_remote_addr=chrome:9222
+    image: ghcr.io/cute-angelia/screenshot:latest
+    command: ["-chrome_remote_addr=chrome:9222"]
+    # 保证服务重新启动
+    restart: always
     depends_on:
-      - chrome
+      chrome:
+        # 通过名称访问而不是网络别名,解耦依赖
+        condition: service_healthy
     networks:
       - screenshot
+      - chrome
     ports:
-      - 8080:8080
+      - 38113:38113
+    # 健康检查确保chrome可用
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://chrome:9222"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-networks:
-  screenshot:
+    # 日志记录到文件
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m" # 单个文件大小限制为10M
+        max-file: "3" # 最多保留3个日志文件
