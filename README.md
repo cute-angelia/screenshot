@@ -25,12 +25,4 @@ quality int
 timeout int 
 
 ```
-
-### k8s
-
-**NOTE:** you should change the Ingress resource according to your needs.
-
-```
-kubectl apply -f k8s.yaml
-```
-
+ 
